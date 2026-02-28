@@ -1,7 +1,8 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Мир Бумажной Лозы</title>
     <style>
         body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; font-family: 'Segoe UI', sans-serif; }
@@ -17,35 +18,41 @@
 
         @keyframes gradientMove { 0% {background-position:0% 50%} 50% {background-position:100% 50%} 100% {background-position:0% 50%} }
 
-        /* Наша кнопка-якорь */
+        /* Красивая кнопка "Далее" */
         #nextBtn {
-            z-index: 100; background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px); color: white;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            padding: 15px 40px; border-radius: 50px; font-size: 18px;
+            z-index: 100; background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            color: white; border: 1px solid rgba(255, 255, 255, 0.4);
+            padding: 18px 45px; border-radius: 50px; font-size: 18px;
             cursor: pointer; transition: 0.4s; margin-top: 20px;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
         }
-        #nextBtn:hover { background: rgba(255, 255, 255, 0.3); transform: scale(1.05); }
+        #nextBtn:hover { background: rgba(255, 255, 255, 0.4); transform: translateY(-3px); }
 
-        /* Контент */
-        .content { opacity: 0; transform: scale(0.9); transition: 1s all; display: flex; flex-direction: column; align-items: center; }
-        .content.show { opacity: 1; transform: scale(1); }
+        .content { opacity: 0; transform: translateY(20px); transition: 0.8s all; display: flex; flex-direction: column; align-items: center; }
+        .content.show { opacity: 1; transform: translateY(0); }
 
         .magic-photo {
-            width: 300px; height: 380px; object-fit: cover;
-            border-radius: 20px; border: 5px solid rgba(255,255,255,0.2);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4); margin-bottom: 20px;
+            width: 85vw; max-width: 320px; height: 400px; object-fit: cover;
+            border-radius: 30px; border: 6px solid rgba(255,255,255,0.3);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5); margin-bottom: 20px;
         }
 
-        h1 { font-size: 24px; max-width: 80%; font-weight: 300; line-height: 1.5; }
+        h1 { font-size: 22px; max-width: 85%; font-weight: 300; line-height: 1.4; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
 
-        /* Кнопки финала */
-        .final-buttons { display: none; gap: 10px; margin-top: 20px; }
+        /* Блок финальных кнопок */
+        .final-buttons { display: none; flex-direction: column; gap: 12px; margin-top: 15px; width: 80%; max-width: 300px; }
+        
         .contact-btn {
-            background: #fff; color: #5d4037; padding: 12px 25px;
-            border-radius: 25px; text-decoration: none; font-weight: bold; font-size: 14px;
+            background: white; color: #5d4037; padding: 15px 20px;
+            border-radius: 20px; text-decoration: none; font-weight: 600; font-size: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2); transition: 0.3s;
+            border: none; cursor: pointer; display: block;
         }
+        .contact-btn:hover { transform: scale(1.03); background: #fdf5f0; }
+        
+        /* Кнопка Поделиться - особенный стиль */
+        .share-btn { background: #e0f2f1; color: #00796b; }
     </style>
 </head>
 <body>
@@ -53,15 +60,15 @@
     <audio id="bgMusic" loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3"></audio>
 
     <div class="main-screen" id="bg">
-        
         <div class="content show" id="contentBlock">
             <div id="icon" style="font-size: 60px; margin-bottom: 10px;">🌿</div>
             <img src="" id="magicImg" class="magic-photo" style="display:none;">
             <h1 id="text">Приглашаю вас окунуться в мир плетения... <br>из бумажной лозы</h1>
             
             <div class="final-buttons" id="finalBtns">
-                <a href="https://t.me/galina_i_loza" target="_blank" class="contact-btn">Перейти в канал 📢</a>
-                <a href="https://t.me/galina_i_loza" target="_blank" class="contact-btn">Обсудить заказ 💬</a>
+                <a href="https://t.me/ВАШ_КАНАЛ" target="_blank" class="contact-btn">Перейти в канал 📢</a>
+                <a href="https://t.me/ВАШ_НИК" target="_blank" class="contact-btn">Написать мастеру 💬</a>
+                <button onclick="shareMagic()" class="contact-btn share-btn">Отправить подруге ✨</button>
             </div>
         </div>
 
@@ -80,8 +87,9 @@
 
         function nextSlide() {
             if (step === 0) {
-                document.getElementById('bgMusic').volume = 0.3;
-                document.getElementById('bgMusic').play();
+                const music = document.getElementById('bgMusic');
+                music.volume = 0.2;
+                music.play();
             }
 
             if (step < data.length) {
@@ -95,24 +103,32 @@
                 setTimeout(() => {
                     document.getElementById('text').innerHTML = current.text;
                     document.getElementById('icon').innerText = current.icon;
-                    
                     const img = document.getElementById('magicImg');
                     img.src = current.img;
                     img.style.display = 'block';
-                    
                     document.getElementById('bg').style.background = current.color;
 
                     if (current.isFinal) {
                         btn.style.display = 'none';
                         document.getElementById('finalBtns').style.display = 'flex';
                     }
-
                     block.classList.add('show');
                     step++;
                 }, 600);
             }
         }
+
+        function shareMagic() {
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Мир Бумажной Лозы',
+                    text: 'Посмотри, какую красоту делает моя сестра! ✨',
+                    url: window.location.href
+                }).catch(console.error);
+            } else {
+                alert("Скопируйте ссылку в браузере и отправьте её подруге!");
+            }
+        }
     </script>
 </body>
-
 </html>
