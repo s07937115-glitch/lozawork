@@ -1,0 +1,117 @@
+<<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Мир Бумажной Лозы</title>
+    <style>
+        body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; font-family: 'Segoe UI', sans-serif; }
+
+        .main-screen {
+            background: linear-gradient(-45deg, #2c1e12, #5d4037, #8d6e63, #2c1e12);
+            background-size: 400% 400%;
+            animation: gradientMove 15s ease infinite;
+            height: 100vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center; color: white;
+            transition: background 1.5s ease;
+        }
+
+        @keyframes gradientMove { 0% {background-position:0% 50%} 50% {background-position:100% 50%} 100% {background-position:0% 50%} }
+
+        /* Наша кнопка-якорь */
+        #nextBtn {
+            z-index: 100; background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px); color: white;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            padding: 15px 40px; border-radius: 50px; font-size: 18px;
+            cursor: pointer; transition: 0.4s; margin-top: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        #nextBtn:hover { background: rgba(255, 255, 255, 0.3); transform: scale(1.05); }
+
+        /* Контент */
+        .content { opacity: 0; transform: scale(0.9); transition: 1s all; display: flex; flex-direction: column; align-items: center; }
+        .content.show { opacity: 1; transform: scale(1); }
+
+        .magic-photo {
+            width: 300px; height: 380px; object-fit: cover;
+            border-radius: 20px; border: 5px solid rgba(255,255,255,0.2);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4); margin-bottom: 20px;
+        }
+
+        h1 { font-size: 24px; max-width: 80%; font-weight: 300; line-height: 1.5; }
+
+        /* Кнопки финала */
+        .final-buttons { display: none; gap: 10px; margin-top: 20px; }
+        .contact-btn {
+            background: #fff; color: #5d4037; padding: 12px 25px;
+            border-radius: 25px; text-decoration: none; font-weight: bold; font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <audio id="bgMusic" loop src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3"></audio>
+
+    <div class="main-screen" id="bg">
+        
+        <div class="content show" id="contentBlock">
+            <div id="icon" style="font-size: 60px; margin-bottom: 10px;">🌿</div>
+            <img src="" id="magicImg" class="magic-photo" style="display:none;">
+            <h1 id="text">Приглашаю вас окунуться в мир плетения... <br>из бумажной лозы</h1>
+            
+            <div class="final-buttons" id="finalBtns">
+                <a href="https://t.me/galina_i_loza" target="_blank" class="contact-btn">Перейти в канал 📢</a>
+                <a href="https://t.me/galina_i_loza" target="_blank" class="contact-btn">Обсудить заказ 💬</a>
+            </div>
+        </div>
+
+        <button id="nextBtn" onclick="nextSlide()">Начать путешествие ✨</button>
+    </div>
+
+    <script>
+        let step = 0;
+        const data = [
+            { text: "Я покажу вам удивительный мир... Вы готовы?", icon: "🪄", img: "img/1.png", color: "linear-gradient(-45deg, #5d4037, #8d6e63)" },
+            { text: "Ловкость рук — и обычная бумага превращается в кашпо 🧺", icon: "👐", img: "img/2.png", color: "linear-gradient(-45deg, #3e2723, #5d4037)" },
+            { text: "Каждый прутик хранит тепло рук и тишину уютных вечеров...", icon: "☕", img: "img/3.png", color: "linear-gradient(-45deg, #4e342e, #795548)" },
+            { text: "Красота в деталях, надежность в каждом витке 🌿", icon: "✨", img: "img/4.png", color: "linear-gradient(-45deg, #2c1e12, #3e2723)" },
+            { text: "Создадим уют в вашем доме вместе?", icon: "🎁", img: "img/5.png", color: "linear-gradient(-45deg, #1a1c2c, #4a59a4)", isFinal: true }
+        ];
+
+        function nextSlide() {
+            if (step === 0) {
+                document.getElementById('bgMusic').volume = 0.3;
+                document.getElementById('bgMusic').play();
+            }
+
+            if (step < data.length) {
+                const current = data[step];
+                const block = document.getElementById('contentBlock');
+                const btn = document.getElementById('nextBtn');
+                
+                block.classList.remove('show');
+                btn.innerText = "Далее ➔";
+
+                setTimeout(() => {
+                    document.getElementById('text').innerHTML = current.text;
+                    document.getElementById('icon').innerText = current.icon;
+                    
+                    const img = document.getElementById('magicImg');
+                    img.src = current.img;
+                    img.style.display = 'block';
+                    
+                    document.getElementById('bg').style.background = current.color;
+
+                    if (current.isFinal) {
+                        btn.style.display = 'none';
+                        document.getElementById('finalBtns').style.display = 'flex';
+                    }
+
+                    block.classList.add('show');
+                    step++;
+                }, 600);
+            }
+        }
+    </script>
+</body>
+</html>
