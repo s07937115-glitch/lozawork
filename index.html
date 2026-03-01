@@ -2,9 +2,10 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Мир Бумажной Лозы</title>
     <style>
+        /* Основные настройки, чтобы всё влезло в экран */
         body, html { margin: 0; padding: 0; height: 100%; overflow: hidden; font-family: 'Segoe UI', sans-serif; }
 
         .main-screen {
@@ -18,41 +19,40 @@
 
         @keyframes gradientMove { 0% {background-position:0% 50%} 50% {background-position:100% 50%} 100% {background-position:0% 50%} }
 
-        /* Красивая кнопка "Далее" */
-        #nextBtn {
-            z-index: 100; background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-            color: white; border: 1px solid rgba(255, 255, 255, 0.4);
-            padding: 18px 45px; border-radius: 50px; font-size: 18px;
-            cursor: pointer; transition: 0.4s; margin-top: 20px;
-            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
-        }
-        #nextBtn:hover { background: rgba(255, 255, 255, 0.4); transform: translateY(-3px); }
-
-        .content { opacity: 0; transform: translateY(20px); transition: 0.8s all; display: flex; flex-direction: column; align-items: center; }
+        /* Контентный блок */
+        .content { opacity: 0; transform: translateY(15px); transition: 0.6s all; display: flex; flex-direction: column; align-items: center; width: 100%; }
         .content.show { opacity: 1; transform: translateY(0); }
 
+        /* Фото (сделали меньше, чтобы кнопки поднялись выше) */
         .magic-photo {
-            width: 85vw; max-width: 320px; height: 400px; object-fit: cover;
-            border-radius: 30px; border: 6px solid rgba(255,255,255,0.3);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5); margin-bottom: 20px;
+            width: 75vw; max-width: 260px; height: 320px; object-fit: cover;
+            border-radius: 20px; border: 4px solid rgba(255,255,255,0.3);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.4); margin-bottom: 10px;
         }
 
-        h1 { font-size: 22px; max-width: 85%; font-weight: 300; line-height: 1.4; text-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+        h1 { font-size: 18px; max-width: 85%; font-weight: 400; line-height: 1.3; margin: 10px 0; }
+        #icon { font-size: 40px; margin-bottom: 5px; }
 
-        /* Блок финальных кнопок */
-        .final-buttons { display: none; flex-direction: column; gap: 12px; margin-top: 15px; width: 80%; max-width: 300px; }
+        /* Кнопка "Далее" */
+        #nextBtn {
+            z-index: 100; background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            color: white; border: 1px solid rgba(255, 255, 255, 0.4);
+            padding: 12px 35px; border-radius: 50px; font-size: 16px;
+            cursor: pointer; transition: 0.3s; margin-top: 10px;
+        }
+
+        /* Финальные кнопки в ряд и столбик */
+        .final-buttons { display: none; flex-direction: column; gap: 8px; width: 80%; max-width: 260px; margin-top: 5px; }
         
         .contact-btn {
-            background: white; color: #5d4037; padding: 15px 20px;
-            border-radius: 20px; text-decoration: none; font-weight: 600; font-size: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2); transition: 0.3s;
-            border: none; cursor: pointer; display: block;
+            background: white; color: #5d4037; padding: 12px;
+            border-radius: 15px; text-decoration: none; font-weight: 600; font-size: 14px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2); border: none; cursor: pointer;
         }
-        .contact-btn:hover { transform: scale(1.03); background: #fdf5f0; }
         
-        /* Кнопка Поделиться - особенный стиль */
-        .share-btn { background: #e0f2f1; color: #00796b; }
+        /* Кнопка Поделиться - выделяем цветом */
+        .share-btn { background: #e0f2f1; color: #00796b; border: 1px solid #b2dfdb; }
     </style>
 </head>
 <body>
@@ -61,14 +61,14 @@
 
     <div class="main-screen" id="bg">
         <div class="content show" id="contentBlock">
-            <div id="icon" style="font-size: 60px; margin-bottom: 10px;">🌿</div>
+            <div id="icon">🌿</div>
             <img src="" id="magicImg" class="magic-photo" style="display:none;">
             <h1 id="text">Приглашаю вас окунуться в мир плетения... <br>из бумажной лозы</h1>
             
             <div class="final-buttons" id="finalBtns">
-                <a href="https://t.me/galina_i_loza" target="_blank" class="contact-btn">Перейти в канал 📢</a>
-                <a href="https://t.me/galina_i_loza" target="_blank" class="contact-btn">Написать мастеру 💬</a>
-                <button onclick="shareMagic()" class="contact-btn share-btn">Отправить подруге ✨</button>
+                <a href="https://t.me/galina_i_loza" target="_blank" class="contact-btn">📢 Перейти в канал</a>
+                <a href="https://t.me/galina_i_loza" target="_blank" class="contact-btn">💬 Написать мастеру</a>
+                <button onclick="shareMagic()" class="contact-btn share-btn">✨ Отправить подруге</button>
             </div>
         </div>
 
@@ -89,7 +89,7 @@
             if (step === 0) {
                 const music = document.getElementById('bgMusic');
                 music.volume = 0.2;
-                music.play();
+                music.play().catch(() => console.log("Ждем клика для музыки"));
             }
 
             if (step < data.length) {
@@ -98,23 +98,24 @@
                 const btn = document.getElementById('nextBtn');
                 
                 block.classList.remove('show');
-                btn.innerText = "Далее ➔";
 
                 setTimeout(() => {
                     document.getElementById('text').innerHTML = current.text;
                     document.getElementById('icon').innerText = current.icon;
                     const img = document.getElementById('magicImg');
-                    img.src = current.img;
+                    img.src = current.img + "?v=" + new Date().getTime(); // Анти-кэш для картинок
                     img.style.display = 'block';
                     document.getElementById('bg').style.background = current.color;
 
                     if (current.isFinal) {
                         btn.style.display = 'none';
                         document.getElementById('finalBtns').style.display = 'flex';
+                    } else {
+                        btn.innerText = "Далее ➔";
                     }
                     block.classList.add('show');
                     step++;
-                }, 600);
+                }, 400);
             }
         }
 
@@ -126,10 +127,11 @@
                     url: window.location.href
                 }).catch(console.error);
             } else {
-                alert("Скопируйте ссылку в браузере и отправьте её подруге!");
+                alert("Скопируйте ссылку и отправьте её друзьям!");
             }
         }
     </script>
 </body>
 </html>
+
 
